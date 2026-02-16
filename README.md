@@ -80,6 +80,19 @@ RandomForestClassifier(
   <p>
     Саме ця модель використовується у веб-застосунку для прогнозування ймовірності відтоку клієнтів.
   </p>
+  <h3>Основні метрики</h3>
+
+  <p>
+    Модель була оцінена на тестовому наборі даних з такими результатами:
+  </p>
+
+  <ul>
+    <li><strong>Accuracy:</strong> 93.81%</li>
+    <li><strong>Precision:</strong> 95.13%</li>
+    <li><strong>Recall:</strong> 93.62%</li>
+    <li><strong>F1-score:</strong> 94.37%</li>
+    <li><strong>ROC-AUC:</strong> 97.81%</li>
+  </ul>
 </section>
 
 
