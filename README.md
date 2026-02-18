@@ -1,4 +1,4 @@
-**Проєкт виконано командою: Customer Retention Lab
+**Проєкт виконано командою: [Customer Retention Lab](https://github.com/Nataliia-Kaguia/project-11_GoIT)
 Роль: Data Scientist
 Основна задача: прогнозування ймовірності відтоку клієнтів телекомунікаційної компанії**
 
