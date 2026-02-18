@@ -142,9 +142,8 @@ Git & Git LFS
 
 1️⃣ Клонування репозиторію
 ```
-git clone https://github.com/Nataliia-Kaguia/project-11_GoIT.git
+git clone https://github.com/SiracencoSerghei/ML_Project.git
 cd project-11_GoIT
-git checkout SiracencoSerghei_branch
 ```
 
 2️⃣ Створення virtual environment
