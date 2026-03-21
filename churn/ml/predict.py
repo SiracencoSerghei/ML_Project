@@ -9,7 +9,16 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model", "churn_model.joblib")
 FEATURES_PATH = os.path.join(BASE_DIR, "training_data", "feature_names.pkl")
 
-_feature_names = joblib.load(FEATURES_PATH)
+
+_feature_names = None
+
+
+def get_feature_names():
+    global _feature_names
+    if _feature_names is None:
+        _feature_names = joblib.load(FEATURES_PATH)
+    return _feature_names
+
 
 _model = None
 

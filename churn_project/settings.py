@@ -27,7 +27,14 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # DEBUG = True  # для dev
 DEBUG = False  # для продакшн
 
-ALLOWED_HOSTS = ["mlproject-production-e4d3.up.railway.app", "localhost", ]
+ALLOWED_HOSTS = ["mlproject-production-e4d3.up.railway.app"]
+
+CSRF_TRUSTED_ORIGINS = ["https://mlproject-production-e4d3.up.railway.app"]
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "Lax"
 
 
 # Application definition
