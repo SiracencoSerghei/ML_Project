@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_PATH = os.path.join(BASE_DIR, "model", "churn_model.pkl")
 SCALER_PATH = os.path.join(BASE_DIR, "model", "scaler.pkl")
-FEATURES_PATH = os.path.join(BASE_DIR, "model", "feature_names.pkl")
+FEATURES_PATH = os.path.join(BASE_DIR, "training_data", "feature_names.pkl")
 
 # Завантажуємо модель, scaler та список ознак
 model = joblib.load(MODEL_PATH)
@@ -55,5 +55,3 @@ def predict_churn(client_data):
         "churn_prediction": predictions[0],
         "risk_level": risk_level,
     }
-
-
