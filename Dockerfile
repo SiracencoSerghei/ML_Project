@@ -26,4 +26,6 @@ EXPOSE 8000
 
 # Команда для запуску Django development server
 # Для продакшн замість "runserver" можна використовувати Gunicorn
-CMD ["gunicorn", "churn_project.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]
+# CMD ["gunicorn", "churn_project.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]
+# Railway використовує змінну середовища PORT для визначення порту, на якому має працювати додаток
+CMD ["sh", "-c", "gunicorn churn_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2"]
