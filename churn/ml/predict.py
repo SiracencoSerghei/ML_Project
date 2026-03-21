@@ -4,9 +4,11 @@ import pandas as pd
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-MODEL_PATH = os.path.join(BASE_DIR, "model", "churn_model.pkl")
-SCALER_PATH = os.path.join(BASE_DIR, "model", "scaler.pkl")
-FEATURES_PATH = os.path.join(BASE_DIR, "training_data", "feature_names.pkl")
+MODEL_DIR = os.path.join(BASE_DIR, "model")
+
+MODEL_PATH = os.path.join(MODEL_DIR, "churn_model.pkl")
+SCALER_PATH = os.path.join(MODEL_DIR, "scaler.pkl")
+FEATURES_PATH = os.path.join(MODEL_DIR, "feature_names.pkl")
 
 # Завантажуємо модель, scaler та список ознак
 model = joblib.load(MODEL_PATH)
