@@ -1,142 +1,164 @@
-**Проєкт виконано командою: [Customer Retention Lab](https://github.com/Nataliia-Kaguia/project-11_GoIT)
-Роль: Data Scientist
-Основна задача: прогнозування ймовірності відтоку клієнтів телекомунікаційної компанії**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Churn Prediction Project</title>
+</head>
 
-# 📊 Churn Prediction Web Application for Telecom Customer
+<body>
 
-Цей проєкт — веб-застосунок для прогнозування відтоку клієнтів (Customer Churn) для телекомунікаційної компанії.
+<h1>📊 Telecom Customer Churn Prediction System</h1>
 
-### Проєкт поєднує:
+<hr>
 
-- Machine Learning (навчена модель прогнозування)
+<h2>Overview</h2>
 
-- Backend на Django
+<p>
+End-to-end machine learning web application for predicting customer churn in a telecommunications environment.
+The system allows input of customer attributes and returns churn probability, classification result, and risk level.
+</p>
 
-- Веб-інтерфейс для введення даних клієнта
+<p>
+The project demonstrates integration of data science workflows with a production-style web backend.
+</p>
 
-- Візуалізацію метрик моделі
+<hr>
 
-- Користувач може вручну ввести дані клієнта та отримати:
+<h2>Business Objective</h2>
 
-        -ймовірність відтоку
+<ul>
+  <li>Identify customers at risk of leaving</li>
+  <li>Enable proactive retention strategies</li>
+  <li>Support data-driven decision making</li>
+</ul>
 
-        -прогноз (піде / залишиться)
+<hr>
 
-        -рівень ризику
+<h2>System Architecture</h2>
 
-## Machine Learning частина
-Класична ML-модель (sklearn), навчена на історичних даних клієнтів
+<p>
+The system follows a modular ML deployment architecture:
+</p>
 
-### Артефакти ML
+<pre><code>
+User Input (Web Form)
+        ↓
+Django Backend
+        ↓
+Feature Alignment & Validation
+        ↓
+ML Pipeline (Preprocessing + Model)
+        ↓
+Prediction Output
+        ↓
+Response Rendering (UI)
+</code></pre>
 
-```
+<hr>
+
+<h2>Machine Learning Approach</h2>
+
+<ul>
+  <li>Multiple models evaluated: Logistic Regression, Random Forest, XGBoost</li>
+  <li>Model selection based on validation performance</li>
+  <li>Evaluation metrics: ROC-AUC, F1-score, Precision, Recall</li>
+</ul>
+
+<p>
+Final model is selected automatically based on F1-score and deployed as a unified Pipeline.
+</p>
+
+<hr>
+
+<h3>Final Model</h3>
+
+<p>
+A scikit-learn Pipeline combining preprocessing and the estimator into a single serialized object.
+</p>
+
+<hr>
+
+<h2>Model Artifacts</h2>
+
+<pre><code>
 churn/ml/
 ├── model/
-│   ├── churn_model.pkl
+│   ├── churn_model.joblib
 │   └── model_info.pkl
 ├── training_data/
-│   ├── scaler.pkl
 │   ├── feature_names.pkl
-│   ├── X_test.csv
-│   └── Y_test.csv
-```
+│   └── internet_service_churn.csv
+</code></pre>
 
+<ul>
+  <li><strong>churn_model.joblib</strong> — serialized Pipeline (preprocessing + model)</li>
+  <li><strong>feature_names.pkl</strong> — feature schema used for inference</li>
+  <li><strong>model_info.pkl</strong> — evaluation metrics and metadata</li>
+</ul>
 
-churn_model.pkl — навчена модель
+<hr>
 
-scaler.pkl — StandardScaler для числових ознак
+<h2>Backend (Django)</h2>
 
-feature_names.pkl — порядок фіч
+<p>
+The backend is responsible for request handling, data validation, model inference, and rendering responses.
+</p>
 
-model_info.pkl — метрики та інформація про модель
+<h3>Core endpoints</h3>
 
-⚠️ Великі файли збережені з використанням Git LFS
+<ul>
+  <li><code>/</code> — Project overview</li>
+  <li><code>/features/</code> — Feature descriptions</li>
+  <li><code>/metrics/</code> — Model evaluation results</li>
+  <li><code>/predict/</code> — Churn prediction interface</li>
+</ul>
 
-<section>
-  <h2>Вибір моделі</h2>
+<hr>
 
-  <p>
-    У процесі розробки було протестовано декілька класичних ML-алгоритмів
-    (<em>Logistic Regression, Decision Tree, KNN, SVM</em> тощо).
-  </p>
+<h2>Key Implementation Details</h2>
 
-  <p>
-    🔍 За результатами порівняння метрик
-    (<strong>ROC-AUC, Precision, Recall, F1-score</strong>)
-    найкращі результати на тестових даних показала модель
-    <strong>Random Forest</strong>.
-  </p>
+<ul>
+  <li>Lazy-loaded ML model using singleton pattern</li>
+  <li>Model preloading via Django AppConfig.ready()</li>
+  <li>Consistent feature ordering enforced via feature_names.pkl</li>
+  <li>Pipeline ensures identical preprocessing during training and inference</li>
+</ul>
 
-  <h3>Фінальна модель:</h3>
+<hr>
 
-  <pre><code>
-RandomForestClassifier(
-    n_estimators=200,
-    random_state=42,
-    class_weight="balanced"
-)
-  </code></pre>
+<h2>Technologies</h2>
 
-  <p>
-    Саме ця модель використовується у веб-застосунку для прогнозування ймовірності відтоку клієнтів.
-  </p>
-  <h3>Основні метрики</h3>
+<ul>
+  <li>Python 3.11</li>
+  <li>Django</li>
+  <li>scikit-learn</li>
+  <li>pandas, numpy</li>
+  <li>XGBoost</li>
+  <li>matplotlib, seaborn</li>
+  <li>Git & Git LFS</li>
+</ul>
 
-  <p>
-    Модель була оцінена на тестовому наборі даних з такими результатами:
-  </p>
+<hr>
 
-  <ul>
-    <li><strong>Accuracy:</strong> 93.81%</li>
-    <li><strong>Precision:</strong> 95.13%</li>
-    <li><strong>Recall:</strong> 93.62%</li>
-    <li><strong>F1-score:</strong> 94.37%</li>
-    <li><strong>ROC-AUC:</strong> 97.81%</li>
-  </ul>
-</section>
+<h2>Highlights</h2>
 
+<ul>
+  <li>End-to-end ML lifecycle implementation</li>
+  <li>Production-style model packaging using Pipeline</li>
+  <li>Separation of concerns between ML and web layers</li>
+  <li>Reproducible inference pipeline</li>
+</ul>
 
-## Django Web Application
-Основні можливості
+<hr>
 
-🏠 Головна сторінка
+<h2>Outcome</h2>
 
-📋 Перегляд списку ознак (features)
+<p>
+The system provides a practical example of deploying a machine learning model into a web application with structured preprocessing, consistent inference, and modular backend design.
+</p>
 
-📈 Візуалізація Confusion Matrix
-
-✍️ Форма прогнозу churn для одного клієнта
-
-### Основні URL
-
-/	Home
-/features/	Список ознак
-/metrics/	Метрики моделі
-/predict/	Прогноз churn
-
-🧾 Форма прогнозу виводить:
-
-- ймовірність відтоку
-
-- прогноз
-
-- рівень ризику (Low / Medium / High)
-
-## Технології
-
-Python 3.11
-
-Django
-
-pandas
-
-numpy
-
-scikit-learn
-
-matplotlib / seaborn
-
-Git & Git LFS
+</body>
+</html>
 
 ## Запуск проєкту локально
 

@@ -7,36 +7,20 @@ Churn Prediction | Telecom
 {% block content %}
 
 <section>
-  <p><strong>Проєкт виконано командою:</strong> Customer Retention Lab</p>
-  <p><strong>Роль:</strong> Data Scientist</p>
-  <p>
-    <strong>Основна задача:</strong>
-    прогнозування ймовірності відтоку клієнтів телекомунікаційної компанії
-  </p>
-</section>
-
-<hr>
-
-<section>
-  <h2>📊 Churn Prediction Web Application for Telecom Customer</h2>
+  <h2>📊 Churn Prediction Web Application</h2>
 
   <p>
-    Цей проєкт — веб-застосунок для прогнозування відтоку клієнтів
-    (<em>Customer Churn</em>) для телекомунікаційної компанії.
+    Веб-застосунок для прогнозування відтоку клієнтів телекомунікаційної компанії
+    (<em>Customer Churn</em>).
   </p>
 
-  <h3>Проєкт поєднує:</h3>
-  <ul>
-    <li>Machine Learning (навчена модель прогнозування)</li>
-    <li>Backend на Django</li>
-    <li>Веб-інтерфейс для введення даних клієнта</li>
-    <li>Візуалізацію метрик моделі</li>
-  </ul>
+  <p>
+    Користувач вводить характеристики клієнта та отримує:
+  </p>
 
-  <p>Користувач може вручну ввести дані клієнта та отримати:</p>
   <ul>
     <li>ймовірність відтоку</li>
-    <li>прогноз (піде / залишиться)</li>
+    <li>бінарний прогноз (піде / залишиться)</li>
     <li>рівень ризику</li>
   </ul>
 </section>
@@ -47,7 +31,8 @@ Churn Prediction | Telecom
   <h2>Machine Learning частина</h2>
 
   <p>
-    Класична ML-модель (<em>scikit-learn</em>), навчена на історичних даних клієнтів.
+    Модель побудована з використанням <strong>scikit-learn Pipeline</strong>,
+    який об'єднує preprocessing та модель в одному об'єкті.
   </p>
 
   <h3>Артефакти ML</h3>
@@ -55,23 +40,22 @@ Churn Prediction | Telecom
   <pre><code>
 churn/ml/
 ├── model/
-│   ├── churn_model.pkl
+│   ├── churn_model.joblib
 │   └── model_info.pkl
 ├── training_data/
-│   ├── scaler.pkl
 │   ├── feature_names.pkl
-│   ├── X_test.csv
-│   └── Y_test.csv
+│   └── internet_service_churn.csv
   </code></pre>
 
   <ul>
-    <li><strong>churn_model.pkl</strong> — навчена модель</li>
-    <li><strong>scaler.pkl</strong> — StandardScaler</li>
-    <li><strong>feature_names.pkl</strong> — порядок фіч</li>
-    <li><strong>model_info.pkl</strong> — метрики моделі</li>
+    <li><strong>churn_model.joblib</strong> — навчена Pipeline модель</li>
+    <li><strong>feature_names.pkl</strong> — порядок і список фіч для inference</li>
+    <li><strong>model_info.pkl</strong> — метрики та інформація про моделі</li>
   </ul>
 
-  <p>⚠️ Великі файли збережені з використанням Git LFS</p>
+  <p>
+    ⚠️ Великі файли збережені з використанням Git LFS
+  </p>
 </section>
 
 <hr>
@@ -80,29 +64,29 @@ churn/ml/
   <h2>Вибір моделі</h2>
 
   <p>
-    Було протестовано декілька класичних ML-алгоритмів
-    (<em>Logistic Regression, Decision Tree, KNN, SVM</em> тощо).
+    Було протестовано декілька моделей машинного навчання:
+  </p>
+
+  <ul>
+    <li>Logistic Regression</li>
+    <li>Random Forest</li>
+    <li>XGBoost</li>
+  </ul>
+
+  <p>
+    Для кожної моделі оцінювались метрики:
+    <strong>F1-score</strong>, <strong>ROC-AUC</strong>, <strong>Precision</strong>, <strong>Recall</strong>.
   </p>
 
   <p>
-    За результатами порівняння метрик
-    (<strong>ROC-AUC, Precision, Recall, F1-score</strong>)
-    найкращі результати показала модель <strong>Random Forest</strong>.
+    Найкраща модель обирається автоматично на основі F1-score на validation set.
   </p>
 
-  <h3>Фінальна модель:</h3>
-
-  <pre><code>
-RandomForestClassifier(
-    n_estimators=200,
-    random_state=42,
-    class_weight="balanced"
-)
-  </code></pre>
+  <h3>Фінальна модель</h3>
 
   <p>
-    Саме ця модель використовується у веб-застосунку для прогнозування
-    ймовірності відтоку клієнтів.
+    У веб-застосунку використовується Pipeline з найкращою моделлю,
+    яка включає всі кроки обробки даних та прогнозування.
   </p>
 </section>
 
@@ -114,9 +98,9 @@ RandomForestClassifier(
   <h3>Основні можливості</h3>
   <ul>
     <li>🏠 Головна сторінка</li>
-    <li>📋 Перегляд списку ознак</li>
-    <li>📈 Confusion Matrix</li>
-    <li>✍️ Прогноз churn для одного клієнта</li>
+    <li>📋 Перелік ознак моделі</li>
+    <li>📈 Метрики моделі (confusion matrix та інші)</li>
+    <li>✍️ Прогноз churn для клієнта</li>
   </ul>
 
   <h3>Основні URL</h3>
@@ -134,9 +118,10 @@ RandomForestClassifier(
   <h2>Технології</h2>
   <ul>
     <li>Python 3.11</li>
-    <li>Django</li>
+    <li>Django 5</li>
     <li>pandas, numpy</li>
     <li>scikit-learn</li>
+    <li>XGBoost</li>
     <li>matplotlib / seaborn</li>
     <li>Git & Git LFS</li>
   </ul>
