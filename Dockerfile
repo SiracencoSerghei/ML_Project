@@ -15,6 +15,6 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # 🔥 TRAIN HERE
-RUN python churn/ml/train.py
+RUN python -m churn.ml.train
 
 CMD ["sh", "-c", "gunicorn churn_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2"]
