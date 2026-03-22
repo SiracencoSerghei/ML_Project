@@ -1,31 +1,20 @@
-# Базовий образ з Python 3.11
 FROM python:3.11-slim
 
-# Встановлюємо системні залежності
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Встановлюємо робочу директорію всередині контейнера
 WORKDIR /app
 
-# Копіюємо файл requirements
 COPY requirements.txt .
-
-# Встановлюємо Python-залежності
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Копіюємо весь проект у контейнер
 COPY . .
 
-# Експортуємо порт для Django
-EXPOSE 8000
+# 🔥 TRAIN HERE
+RUN python churn/ml/train.py
 
-# Команда для запуску Django development server
-# Для продакшн замість "runserver" можна використовувати Gunicorn
-# CMD ["gunicorn", "churn_project.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]
-# Railway використовує змінну середовища PORT для визначення порту, на якому має працювати додаток
 CMD ["sh", "-c", "gunicorn churn_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2"]
