@@ -9,6 +9,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model", "churn_model.joblib")
 FEATURES_PATH = os.path.join(BASE_DIR, "training_data", "feature_names.pkl")
 
+print("FEATURES PATH EXISTS:", os.path.exists(FEATURES_PATH))
+print("MODEL PATH EXISTS:", os.path.exists(MODEL_PATH))
+
 
 _feature_names = None
 
@@ -39,12 +42,25 @@ def predict_churn(data: dict):
     df = preprocess(df)
 
     # 🔥 вирівнюємо колонки
-    df = df.reindex(columns=_feature_names)
+    df = df.reindex(columns=get_feature_names())
 
     proba = model.predict_proba(df)[0][1]
     pred = model.predict(df)[0]
 
     risk_level = "High" if proba > 0.7 else "Medium" if proba > 0.3 else "Low"
+
+    print("INPUT DATA:", data)
+    print("DF BEFORE:", df)
+
+    df = preprocess(df)
+
+    print("DF AFTER PREPROCESS:", df)
+
+    df = df.reindex(columns=get_feature_names())
+
+    print("DF FINAL:", df)
+    print("SHAPE:", df.shape)
+    print("NULLS:", df.isnull().sum())
 
     return {
         "churn_probability": float(proba),
