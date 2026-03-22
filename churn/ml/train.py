@@ -35,8 +35,17 @@ X = df.drop("churn", axis=1)
 y = df["churn"]
 
 # Save feature names (CRITICAL for inference)
-feature_names = X.columns.tolist()
-joblib.dump(feature_names, FEATURES_PATH)
+feature_names = [
+    "subscription_age",
+    "bill_avg",
+    "reamining_contract",
+    "service_failure_count",
+    "download_avg",
+    "upload_avg",
+    "is_tv_subscriber",
+    "is_movie_package_subscriber",
+    "download_over_limit",
+]
 
 # ------------------- Train/Test Split -------------------
 X_train, X_val, y_train, y_val = train_test_split(
@@ -54,8 +63,30 @@ models = {
 
 # ------------------- Pipelines -------------------
 pipelines = {
-    name: Pipeline([("scaler", StandardScaler()), ("model", model)])
-    for name, model in models.items()
+    "Logistic Regression": Pipeline(
+        [
+            ("scaler", StandardScaler()),
+            ("model", LogisticRegression(max_iter=1000, class_weight="balanced")),
+        ]
+    ),
+    "Random Forest": Pipeline(
+        [
+            (
+                "model",
+                RandomForestClassifier(
+                    n_estimators=200, random_state=42, class_weight="balanced"
+                ),
+            )
+        ]
+    ),
+    "XGBoost": Pipeline(
+        [
+            (
+                "model",
+                XGBClassifier(n_estimators=200, random_state=42, eval_metric="logloss"),
+            )
+        ]
+    ),
 }
 
 # ------------------- Training -------------------
@@ -66,6 +97,8 @@ model_infos = {}
 
 for name, pipeline in pipelines.items():
     print(f"\nTraining {name}...")
+
+    print(X.dtypes)
 
     pipeline.fit(X_train, y_train)
 

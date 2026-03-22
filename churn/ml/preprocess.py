@@ -1,10 +1,11 @@
+from joblib import logger
 import pandas as pd
 
 
 NUMERICAL_COLS = [
     "subscription_age",
     "bill_avg",
-    "reamining_contract",
+    "remaining_contract",
     "service_failure_count",
     "download_avg",
     "upload_avg",
@@ -14,10 +15,22 @@ NUMERICAL_COLS = [
 def preprocess(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
-    # Missing values handling
+    # fill missing
     df["reamining_contract"] = df["reamining_contract"].fillna(0)
     df["download_avg"] = df["download_avg"].fillna(df["download_avg"].median())
     df["upload_avg"] = df["upload_avg"].fillna(df["upload_avg"].median())
+
+    # convert categorical/binary to numeric
+    binary_cols = [
+        "is_tv_subscriber",
+        "is_movie_package_subscriber",
+        "download_over_limit",
+    ]
+
+    for col in binary_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0).astype(int)
+            logger.error(f"DTYPES:\n{df.dtypes}")
 
     return df
 

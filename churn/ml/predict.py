@@ -52,7 +52,16 @@ def predict_churn(data: dict):
         logger.error(f"AFTER PREPROCESS:\n{df}")
 
         # 3. align columns
-        df = df.reindex(columns=feature_names)
+        missing_cols = set(feature_names) - set(df.columns)
+        extra_cols = set(df.columns) - set(feature_names)
+
+        if missing_cols:
+            raise ValueError(f"Missing columns: {missing_cols}")
+        if extra_cols:
+            logger.warning(f"Extra columns will be ignored: {extra_cols}")
+
+        df = df[feature_names]
+
         logger.error(f"AFTER REINDEX:\n{df}")
 
         # 4. check NaN
