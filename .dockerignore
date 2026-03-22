@@ -5,7 +5,6 @@ __pycache__
 *.pyd
 
 internet_service_churn.csv
-churn/ml/train.py
 churn/ml/**/X_*.csv
 churn/ml/**/Y_*.csv
 churn/ml/**/roc_curve.png
